@@ -1,19 +1,13 @@
-import pyttsx3
+from app.core.shared import notification_queue
 from app.ml.data_logger import log_event
-
-engine = pyttsx3.init()
 
 def notify(task_name, planned_time=None, category="General"):
     message = f"Sir, it is time to {task_name}"
-    print(f"[Notifier] {message}")
+    print(f"[Notifier] Queued message: {message}")
 
-    try:
-        engine.say(message)
-        engine.runAndWait()
-    except RuntimeError:
-        # Handle cases where the loop is already running
-        pass
+    # Add to queue for the phone to pick up
+    notification_queue.append(message)
 
-    # FIX: Do NOT log "ignored" here immediately. 
-    # Let the user feedback API handle the logging of the actual response.
-    # This prevents creating false negative data points.
+    # Log event (User will confirm via UI later)
+    # response_type is pending until user clicks feedback
+    pass

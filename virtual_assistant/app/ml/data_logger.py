@@ -21,6 +21,10 @@ def init_logger():
 
 def log_event(task, planned_time, response_type, category="General"):
     now = datetime.now()
+    
+    # Ensure file exists
+    if not os.path.exists(LOG_FILE):
+        init_logger()
 
     with open(LOG_FILE, "a", newline="") as f:
         writer = csv.writer(f)
@@ -32,3 +36,25 @@ def log_event(task, planned_time, response_type, category="General"):
             response_type,
             category
         ])
+
+def get_today_completed_tasks():
+    """
+    Returns a set of (title, time) tuples for tasks completed today.
+    """
+    if not os.path.exists(LOG_FILE):
+        return set()
+
+    completed = set()
+    today_str = datetime.now().date().isoformat()
+
+    try:
+        with open(LOG_FILE, "r") as f:
+            reader = csv.DictReader(f)
+            for row in reader:
+                # Check if the log entry is for today
+                if row['date'] == today_str:
+                    completed.add((row['task'], row['planned_time']))
+    except Exception as e:
+        print(f"[DataLogger] Error reading logs: {e}")
+
+    return completed

@@ -13,3 +13,5 @@ date,task,planned_time,actual_response_time,response_type,category
 2026-01-12,Wake up,07:00,10:05,done,Personal
 2026-01-12,PhD Research,09:00,10:05,skipped,PhD
 2026-01-12,Study,12:00,10:06,done,General
+2026-01-12,stand,10:12,10:12,done,General
+2026-01-12,stand,10:33,10:37,skipped,General

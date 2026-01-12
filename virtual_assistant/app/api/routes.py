@@ -4,6 +4,7 @@ from app.db.database import add_task, fetch_tasks_by_date
 from app.core.scheduler import schedule_tasks
 from app.core.task_manager import get_today_tasks
 from app.ml.data_logger import log_event
+from app.core.shared import notification_queue
 
 router = APIRouter()
 
@@ -54,3 +55,11 @@ def task_feedback(
         "status": "Feedback recorded",
         "time": datetime.now().strftime("%H:%M")
     }
+
+@router.get("/notifications")
+def get_notifications():
+    messages = []
+    # Pop all messages from the queue
+    while notification_queue:
+        messages.append(notification_queue.pop(0))
+    return messages

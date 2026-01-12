@@ -196,6 +196,34 @@
 
         // Initial Load
         loadTasks();
+
+        // --- TEXT TO SPEECH POLLING ---
+        
+        function speak(text) {
+            const utterance = new SpeechSynthesisUtterance(text);
+            // Optional: Choose a voice
+            // const voices = window.speechSynthesis.getVoices();
+            // utterance.voice = voices[0]; 
+            window.speechSynthesis.speak(utterance);
+        }
+
+        async function checkNotifications() {
+            try {
+                const res = await fetch(`${API_URL}/notifications`);
+                const messages = await res.json();
+                
+                if (messages.length > 0) {
+                    messages.forEach(msg => speak(msg));
+                    // Refresh list to show the task is due
+                    loadTasks(); 
+                }
+            } catch (e) {
+                console.log("Polling error", e);
+            }
+        }
+
+        // Check for notifications every 5 seconds
+        setInterval(checkNotifications, 5000);
     </script>
 </body>
 </html>
