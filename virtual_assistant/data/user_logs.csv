@@ -1,0 +1,15 @@
+date,task,planned_time,actual_response_time,response_type,category
+2023-10-01,Wake up,07:00,07:05,done,Personal
+2023-10-01,PhD Research,09:00,09:15,delayed,PhD
+2023-10-01,Lunch,13:00,13:00,done,General
+2023-10-01,App Dev,14:00,14:30,skipped,App
+2023-10-02,Wake up,07:00,07:00,done,Personal
+2023-10-02,Exercise,07:30,07:35,done,Personal
+2023-10-02,PhD Research,09:00,10:00,skipped,PhD
+2023-10-02,Meeting,11:00,11:00,done,General
+2023-10-03,App Dev,18:00,18:10,done,App
+2023-10-03,Sleep,22:30,22:45,done,Personal2026-01-12,Wake up,07:00,10:04,done,Personal
+2026-01-12,Wake up,07:00,10:04,done,Personal
+2026-01-12,Wake up,07:00,10:05,done,Personal
+2026-01-12,PhD Research,09:00,10:05,skipped,PhD
+2026-01-12,Study,12:00,10:06,done,General

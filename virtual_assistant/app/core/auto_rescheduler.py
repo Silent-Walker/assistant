@@ -25,19 +25,35 @@ def auto_reschedule(task):
     """
     Decides whether to reschedule a task.
     """
-    hour = int(task["time"].split(":")[0])
+    try:
+        hour = int(task["time"].split(":")[0])
+    except ValueError:
+        # Handle cases where time might be invalid
+        return task, "kept"
+
     day_of_week = datetime.now().weekday()
 
-    category_vector = {}  # built from training schema
+    # FIX: Manually construct one-hot encoding for the model.
+    # Based on trainer.py using drop_first=True on ["App", "General", "Personal", "PhD"]
+    # "App" is likely dropped as the reference category.
+    current_category = task.get("category", "General")
+    
+    category_vector = {
+        "category_General": 1 if current_category == "General" else 0,
+        "category_Personal": 1 if current_category == "Personal" else 0,
+        "category_PhD": 1 if current_category == "PhD" else 0
+    }
+
     skip_prob = predict_skip_probability(hour, day_of_week, category_vector)
 
     task["skip_probability"] = round(skip_prob, 2)
 
+    # Threshold for rescheduling
     if skip_prob < 0.7:
         return task, "kept"
 
     new_time = find_better_time(
-        task.get("category", "General"),
+        current_category,
         used_times=[]
     )
 
